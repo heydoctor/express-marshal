@@ -45,8 +45,18 @@ export default class TestController {
   @marshal.validate({
     name: Joi.string().required(),
   })
-  @marshal.post('/validate')
+  @marshal.post('/validate-post')
   validate(req, res) {
+    res.sendStatus(200);
+  }
+
+  @marshal.validate(
+    Joi.object({
+      include: Joi.array().required(),
+    })
+  )
+  @marshal.get('/validate-get')
+  validateGet(req, res) {
     res.sendStatus(200);
   }
 

@@ -19,7 +19,19 @@ test('mount', t => {
   mount(router, [TestController]);
 
   // hacky
-  t.is(router.stack[0].handle.stack.length, 8);
+  t.is(router.stack[0].handle.stack.length, 9);
+});
+
+test('mount invalid controller', t => {
+  class Invalid {}
+  const router = new Router();
+  try {
+    mount(router, [Invalid]);
+  } catch (error) {
+    t.pass();
+    return;
+  }
+  t.fail();
 });
 
 test('@controller', t => {
@@ -55,20 +67,34 @@ test('@post', async t => {
   t.snapshot(res.body);
 });
 
-test('@validate', async t => {
+test('@validate post', async t => {
   const resFailure = await t.context.server
-    .post('/validate')
+    .post('/validate-post')
     .send({})
     .expect(400);
 
   t.is(resFailure.status, 400);
 
   const resSuccess = await t.context.server
-    .post('/validate')
+    .post('/validate-post')
     .send({
       name: 'Hiyo',
     })
     .expect(200);
+
+  t.is(resSuccess.status, 200);
+});
+
+test('@validate get', async t => {
+  const resFailure = await t.context.server.get('/validate-get');
+
+  t.is(resFailure.status, 400);
+
+  const resSuccess = await t.context.server
+    .get('/validate-get?include=[1,2,3]')
+    .send({
+      name: 'Hiyo',
+    });
 
   t.is(resSuccess.status, 200);
 });
@@ -82,7 +108,7 @@ test('@contentType', async t => {
   t.is(resWrongContentType.status, 400);
 
   const resWithContentType = await t.context.server
-    .post('/validate')
+    .post('/post')
     .send({
       name: 'Hiyo',
     })
