@@ -4,25 +4,24 @@
 [![Build Status](https://travis-ci.org/kylealwyn/express-marshal.svg?branch=master)](https://travis-ci.org/kylealwyn/express-marshal)
 [![Coverage Status](https://coveralls.io/repos/kylealwyn/express-marshal/badge.svg?branch=master&service=github)](https://coveralls.io/github/kylealwyn/express-marshal?branch=master)
 
-Helpful decorators to wire up Express controllers
+A suite of decorators built to wire up [express](https://github.com/expressjs/express) controllers
 
 
 ## Install
 
 ```
-$ npm install express-marshal
+$ npm install express express-marshal
 ```
 
-Make sure you have decorators enabled through babel:
+Make sure you have decorators enabled through [babel](https://github.com/babel/babel):
 
 ```
 $ npm install --save-dev babel-plugin-transform-decorators-legacy
 ```
 
-Then in your .babelrc:
+Add the plugin to your .babelrc:
 ```
 {
-  ...
   "plugins": ["transform-decorators-legacy"]
 }
 ```
@@ -85,11 +84,13 @@ app.listen(process.env.PORT || 3000);
 
 ### `mount(router, [controllers])`
 
-#### `router: Express#Router`
-  * An express router: `const router = new Router()`
+* #### `router: Express#Router`
 
-#### `controllers: Array`
-  * Array of decorated controllers
+  An Express router
+
+* #### `controllers: Array`
+*
+  Array of decorated controllers
 
 ```js
 import express, { Router } from 'express';
