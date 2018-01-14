@@ -19,7 +19,7 @@ test('mount', (t) => {
 	mount(router, [TestController]);
 
 	// hacky
-	t.is(router.stack[0].handle.stack.length, 7);
+	t.is(router.stack[0].handle.stack.length, 8);
 });
 
 test('@controller', (t) => {
@@ -33,10 +33,14 @@ test('@param', async (t) => {
 	t.is(res.body.param, param);
 });
 
+test('@route', async (t) => {
+	const res = await t.context.server.get(`/route`).expect(200);
+	t.pass();
+});
+
 test('@get', async (t) => {
 	const res = await t.context.server.get('/').expect(200);
-
-	t.snapshot(res.body);
+	t.pass();
 });
 
 test('@post', async (t) => {

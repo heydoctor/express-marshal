@@ -22,15 +22,18 @@ export default class TestController {
 
 	@marshal.get('/')
 	index(req, res) {
-		res.json({
-			hello: 'world',
-		});
+		res.sendStatus(200)
 	}
 
 	@marshal.contentType('application/json')
 	@marshal.post('/post')
 	post(req, res) {
 		res.json(req.body);
+	}
+
+	@marshal.route('get', '/route')
+	route(req, res) {
+		res.sendStatus(200);
 	}
 
 	@marshal.get('/route-parameter/:param')
