@@ -5,101 +5,101 @@ import bodyParser from 'body-parser';
 import TestController from './fixture';
 import { mount } from '../lib';
 
-test.beforeEach((t) => {
-	const app = express();
-	const router = new Router();
-	mount(router, [TestController]);
-	app.use(bodyParser.json());
-	app.use(router);
-	t.context.server = supertest(app);
+test.beforeEach(t => {
+  const app = express();
+  const router = new Router();
+  mount(router, [TestController]);
+  app.use(bodyParser.json());
+  app.use(router);
+  t.context.server = supertest(app);
 });
 
-test('mount', (t) => {
-	const router = new Router();
-	mount(router, [TestController]);
+test('mount', t => {
+  const router = new Router();
+  mount(router, [TestController]);
 
-	// hacky
-	t.is(router.stack[0].handle.stack.length, 8);
+  // hacky
+  t.is(router.stack[0].handle.stack.length, 8);
 });
 
-test('@controller', (t) => {
-	t.truthy(TestController.__router);
+test('@controller', t => {
+  t.truthy(TestController.__router);
 });
 
-test('@param', async (t) => {
-	const param = 'jambalaya'
-	const res = await t.context.server.get(`/route-parameter/${param}`);
+test('@param', async t => {
+  const param = 'jambalaya';
+  const res = await t.context.server.get(`/route-parameter/${param}`);
 
-	t.is(res.body.param, param);
+  t.is(res.body.param, param);
 });
 
-test('@route', async (t) => {
-	const res = await t.context.server.get(`/route`).expect(200);
-	t.pass();
+test('@route', async t => {
+  const res = await t.context.server.get(`/route`).expect(200);
+  t.pass();
 });
 
-test('@get', async (t) => {
-	const res = await t.context.server.get('/').expect(200);
-	t.pass();
+test('@get', async t => {
+  const res = await t.context.server.get('/').expect(200);
+  t.pass();
 });
 
-test('@post', async (t) => {
-	const res = await t.context.server
-		.post('/post')
-		.set('Content-Type', 'application/json')
-		.send({
-			name: 'Johnny Tsunami',
-		})
-		.expect(200);
+test('@post', async t => {
+  const res = await t.context.server
+    .post('/post')
+    .set('Content-Type', 'application/json')
+    .send({
+      name: 'Johnny Tsunami',
+    })
+    .expect(200);
 
-	t.snapshot(res.body);
+  t.snapshot(res.body);
 });
 
-test('@validate', async (t) => {
-	const resFailure = await t.context.server
-		.post('/validate')
-		.send({})
-		.expect(400);
+test('@validate', async t => {
+  const resFailure = await t.context.server
+    .post('/validate')
+    .send({})
+    .expect(400);
 
-	t.is(resFailure.status, 400);
+  t.is(resFailure.status, 400);
 
-	const resSuccess = await t.context.server
-		.post('/validate')
-		.send({
-			name: 'Hiyo',
-		})
-		.expect(200);
+  const resSuccess = await t.context.server
+    .post('/validate')
+    .send({
+      name: 'Hiyo',
+    })
+    .expect(200);
 
-	t.is(resSuccess.status, 200);
+  t.is(resSuccess.status, 200);
 });
 
-test('@contentType', async (t) => {
-	const resWrongContentType = await t.context.server
-		.post('/post')
-		.set('Content-Type', 'text/plain')
-		.expect(400);
+test('@contentType', async t => {
+  const resWrongContentType = await t.context.server
+    .post('/post')
+    .set('Content-Type', 'text/plain')
+    .expect(400);
 
-	t.is(resWrongContentType.status, 400);
+  t.is(resWrongContentType.status, 400);
 
-	const resWithContentType = await t.context.server
-		.post('/validate')
-		.send({
-			name: 'Hiyo',
-		})
-		.set('Content-Type', 'application/json')
-		.expect(200);
+  const resWithContentType = await t.context.server
+    .post('/validate')
+    .send({
+      name: 'Hiyo',
+    })
+    .set('Content-Type', 'application/json')
+    .expect(200);
 
-	t.is(resWithContentType.status, 200);
+  t.is(resWithContentType.status, 200);
 });
 
-test('middlewares', async (t) => {
-	const controllerMwRes = await t.context.server.get('/controller-middleware');
+test('middlewares', async t => {
+  const controllerMwRes = await t.context.server.get('/controller-middleware');
 
-	t.truthy(controllerMwRes.body.inControllerMiddleware);
-	t.falsy(controllerMwRes.body.inRouteMiddleware);
+  t.truthy(controllerMwRes.body.inControllerMiddleware);
+  t.falsy(controllerMwRes.body.inRouteMiddleware);
 
-	const routeMwRes = await t.context.server.get('/route-middleware');
+  const routeMwRes = await t.context.server.get('/route-middleware');
 
-	t.truthy(routeMwRes.body.inControllerMiddleware);
-	t.truthy(routeMwRes.body.inRouteMiddleware);
+  t.truthy(routeMwRes.body.inControllerMiddleware);
+  t.truthy(routeMwRes.body.inRouteMiddleware);
 });

@@ -15,7 +15,8 @@
 	"scripts": {
 		"test": "nyc ava",
 		"coverage": "nyc report --reporter=text-lcov | coveralls",
-		"coverage:html": "nyc report --reporter=html"
+		"coverage:html": "nyc report --reporter=html",
+		"format": "prettier --single-quote --trailing-comma es5 --write '{lib,test}/**/*.js'"
 	},
 	"main": "lib/index.js",
 	"files": [
@@ -55,6 +56,7 @@
 		"body-parser": "^1.18.2",
 		"coveralls": "^3.0.0",
 		"nyc": "^11.0.0",
+		"prettier": "^1.10.2",
 		"supertest": "^3.0.0"
 	}
 }
