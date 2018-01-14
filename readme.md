@@ -31,14 +31,14 @@ Add the plugin to your .babelrc:
 ```js
 
 import express, { Router } from 'express'
-import * as marshal from 'express-marshal';
+import { mount, controller, param, validate, get, post } from 'express-marshal';
 import Joi from 'joi';
 
 @controller('/users')
 class UserController {
 
   // Add route parameters
-  @marshal.param('id')
+  @param('id')
   preloadUser(req, res, next, id) {
     const user = UserService.find({ id });
 
@@ -51,31 +51,34 @@ class UserController {
     next();
   }
 
-  @marshal.get('/')
-  listUsers(req, res) {
+  // Add route-specific middleware
+  @get('/', [authenticator])
+  getUsers(req, res) {
     res.json({ users: [] });
+  }
+
+  // Use the previously specified param
+  @get('/:id')
+  getUser(req, res) {
+    res.json({
+      user: req.user
+    });
   }
 
   // Validate user paylaods with Joi
-  @marshal.validate({
+  @validate({
     email: Joi.string().required(),
     password: Joi.string().required()
   })
-  @marshal.post('/')
+  @post('/')
   createUser(req, res) {
     res.json({ users: [] });
-  }
-
-  // Add route-specific middleware
-  @marshal.del('/:id', [authenticator])
-  async deleteUser(req, res) {
-    await req.user.delete()
   }
 }
 
 const app = express()
 const router = new Router();
-marshal.mount(router, [UserController]);
+mount(router, [UserController]);
 app.use(router);
 app.listen(process.env.PORT || 3000);
 ```
