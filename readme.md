@@ -89,7 +89,7 @@ app.listen(process.env.PORT || 3000);
   An Express router
 
 * #### `controllers: Array`
-*
+
   Array of decorated controllers
 
 ```js
