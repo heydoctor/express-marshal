@@ -3,7 +3,8 @@ import supertest from 'supertest';
 import express, { Router } from 'express';
 import bodyParser from 'body-parser';
 import TestController from './fixture';
-import { mount } from '../lib';
+import { mount, controller } from '../lib';
+import { prettyPath } from '../lib/utils';
 
 test.beforeEach(t => {
   const app = express();
@@ -12,6 +13,16 @@ test.beforeEach(t => {
   app.use(bodyParser.json());
   app.use(router);
   t.context.server = supertest(app);
+});
+
+test('prettyPath', t => {
+  t.is(prettyPath('/'), '/');
+  t.is(prettyPath('//dubz//'), '/dubz');
+  t.is(prettyPath('/trailz/'), '/trailz');
+  const error = t.throws(() => {
+    prettyPath('noleadingslash');
+  });
+  t.snapshot(error.message);
 });
 
 test('mount', t => {
@@ -24,18 +35,31 @@ test('mount', t => {
 
 test('mount invalid controller', t => {
   class Invalid {}
+
   const router = new Router();
-  try {
+  const error = t.throws(() => {
     mount(router, [Invalid]);
-  } catch (error) {
-    t.pass();
-    return;
-  }
-  t.fail();
+  });
+  t.snapshot(error.message);
 });
 
 test('@controller', t => {
   t.truthy(TestController.__router);
+});
+
+test('@controller without routes', t => {
+  @controller('/')
+  class NoRoutes {}
+
+  t.truthy(NoRoutes.__router);
+});
+
+test('@controller without basepath', t => {
+  const error = t.throws(() => {
+    @controller()
+    class NoBasePath {}
+  });
+  t.snapshot(error.message);
 });
 
 test('@param', async t => {

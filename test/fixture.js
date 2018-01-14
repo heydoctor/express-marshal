@@ -11,7 +11,7 @@ const routeSpecificMiddleware = (req, res, next) => {
   next();
 };
 
-@marshal.controller('', [allRoutesMiddleware])
+@marshal.controller('/', [allRoutesMiddleware])
 export default class TestController {
   @marshal.param('param')
   preload(req, res, next, param) {
