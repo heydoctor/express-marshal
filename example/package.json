@@ -1,0 +1,17 @@
+{
+	"name": "express-marshal-example",
+	"license": "MIT",
+	"repository": "kylealwyn/express-marshal",
+	"author": {
+		"name": "Kyle Alwyn",
+		"email": "kyle.j.alwyn@gmail.com",
+		"url": "https://kylealwyn.com"
+	},
+	"scripts": {
+		"start": "babel-node index.js"
+	},
+	"dependencies": {
+		"express": "^4.0.0",
+		"joi": "^11.0.0"
+	}
+}
