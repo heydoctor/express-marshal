@@ -30,7 +30,7 @@ test('mount', t => {
   mount(router, [TestController]);
 
   // hacky
-  t.is(router.stack[0].handle.stack.length, 9);
+  t.is(router.stack[0].handle.stack.length, 8);
 });
 
 test('mount invalid controller', t => {
