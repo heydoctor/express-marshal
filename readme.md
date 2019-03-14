@@ -1,8 +1,8 @@
 # express-marshal
 
 [![npm version](https://badge.fury.io/js/express-marshal.svg)](http://badge.fury.io/js/express-marshal)
-[![Build Status](https://travis-ci.org/kylealwyn/express-marshal.svg?branch=master)](https://travis-ci.org/kylealwyn/express-marshal)
-[![Coverage Status](https://coveralls.io/repos/kylealwyn/express-marshal/badge.svg?branch=master&service=github)](https://coveralls.io/github/kylealwyn/express-marshal?branch=master)
+[![Build Status](https://travis-ci.org/heydoctor/express-marshal.svg?branch=master)](https://travis-ci.org/heydoctor/express-marshal)
+[![Coverage Status](https://coveralls.io/repos/heydoctor/express-marshal/badge.svg?branch=master&service=github)](https://coveralls.io/github/heydoctor/express-marshal?branch=master)
 
 A suite of decorators built to wire up [express](https://github.com/expressjs/express) controllers
 
