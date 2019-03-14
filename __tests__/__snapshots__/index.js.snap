@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@controller without basepath 1`] = `"@controller declaration for \`NoBasePath\` is missing a basepath."`;
+
+exports[`@post 1`] = `
+Object {
+  "name": "Johnny Tsunami",
+}
+`;
+
+exports[`mount invalid controller 1`] = `"Invalid requires a router property. Make sure you decorated your class with @controller(basepath)"`;
+
+exports[`prettyPath 1`] = `"Path \`noleadingslash\` must begin with a slash."`;
