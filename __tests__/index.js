@@ -13,122 +13,128 @@ app.use(bodyParser.json());
 app.use(router);
 const server = supertest(app);
 
-test('prettyPath', () => {
-  expect(prettyPath('/')).toEqual('/');
-  expect(prettyPath('//dubz//')).toEqual('/dubz');
-  expect(prettyPath('/trailz/')).toEqual('/trailz');
-  expect(() => prettyPath('noleadingslash')).toThrowErrorMatchingSnapshot();
+describe('utils', () => {
+  test('prettyPath', () => {
+    expect(prettyPath('/')).toEqual('/');
+    expect(prettyPath('//dubz//')).toEqual('/dubz');
+    expect(prettyPath('/trailz/')).toEqual('/trailz');
+    expect(() => prettyPath('noleadingslash')).toThrowErrorMatchingSnapshot();
+  });
 });
 
-test('mount', () => {
-  const router = new Router();
-  mount(router, [TestController]);
+describe('decorators', () => {
+  test('mount', () => {
+    const router = new Router();
+    mount(router, [TestController]);
 
-  // hacky
-  expect(router.stack[0].handle.stack.length).toEqual(8);
+    // hacky
+    expect(router.stack[0].handle.stack.length).toEqual(8);
+  });
+
+  test('mount invalid controller', () => {
+    class Invalid {}
+
+    const router = new Router();
+
+    expect(() => mount(router, [Invalid])).toThrowErrorMatchingSnapshot();
+  });
+
+  test('@controller', () => {
+    expect(TestController.__router).toBeDefined();
+  });
+
+  test('@controller without routes', () => {
+    @controller('/')
+    class NoRoutes {}
+
+    expect(NoRoutes.__router).toBeDefined();
+  });
+
+  test('@controller without basepath', () => {
+    expect(() => {
+      @controller()
+      class NoBasePath {}
+    }).toThrowErrorMatchingSnapshot();
+  });
 });
 
-test('mount invalid controller', () => {
-  class Invalid {}
+describe('requests', () => {
+  test('@param', async () => {
+    const param = 'jambalaya';
+    const res = await server.get(`/route-parameter/${param}`);
 
-  const router = new Router();
+    expect(res.body.param).toEqual(param);
+  });
 
-  expect(() => mount(router, [Invalid])).toThrowErrorMatchingSnapshot();
-});
+  test('@route', async () => {
+    await server.get(`/route`).expect(200);
+  });
 
-test('@controller', () => {
-  expect(TestController.__router).toBeDefined();
-});
+  test('@get', async () => {
+    await server.get('/').expect(200);
+  });
 
-test('@controller without routes', () => {
-  @controller('/')
-  class NoRoutes {}
+  test('@post', async () => {
+    const res = await server
+      .post('/post')
+      .set('Content-Type', 'application/json')
+      .send({
+        name: 'Johnny Tsunami',
+      })
+      .expect(200);
 
-  expect(NoRoutes.__router).toBeDefined();
-});
+    expect(res.body).toMatchSnapshot();
+  });
 
-test('@controller without basepath', () => {
-  expect(() => {
-    @controller()
-    class NoBasePath {}
-  }).toThrowErrorMatchingSnapshot();
-});
+  test('@validate post', async () => {
+    await server
+      .post('/validate-post')
+      .send({})
+      .expect(400);
 
-test('@param', async () => {
-  const param = 'jambalaya';
-  const res = await server.get(`/route-parameter/${param}`);
+    await server
+      .post('/validate-post')
+      .send({
+        name: 'Hiyo',
+      })
+      .expect(200);
+  });
 
-  expect(res.body.param).toEqual(param);
-});
+  test('@validate get', async () => {
+    const resFailure = await server.get('/validate-get').expect(400);
 
-test('@route', async () => {
-  await server.get(`/route`).expect(200);
-});
+    const resSuccess = await server
+      .get('/validate-get?include=[1,2,3]')
+      .send({
+        name: 'Hiyo',
+      })
+      .expect(200);
+  });
 
-test('@get', async () => {
-  await server.get('/').expect(200);
-});
+  test('@contentType', async () => {
+    await server
+      .post('/post')
+      .set('Content-Type', 'text/plain')
+      .expect(400);
 
-test('@post', async () => {
-  const res = await server
-    .post('/post')
-    .set('Content-Type', 'application/json')
-    .send({
-      name: 'Johnny Tsunami',
-    })
-    .expect(200);
+    await server
+      .post('/post')
+      .send({
+        name: 'Hiyo',
+      })
+      .set('Content-Type', 'application/json')
+      .expect(200);
+  });
 
-  expect(res.body).toMatchSnapshot();
-});
+  test('middlewares', async () => {
+    const controllerMwRes = await server.get('/controller-middleware');
 
-test('@validate post', async () => {
-  await server
-    .post('/validate-post')
-    .send({})
-    .expect(400);
+    expect(controllerMwRes.body.inControllerMiddleware).toBeTruthy();
+    expect(controllerMwRes.body.inRouteMiddleware).toBeFalsy();
 
-  await server
-    .post('/validate-post')
-    .send({
-      name: 'Hiyo',
-    })
-    .expect(200);
-});
+    const routeMwRes = await server.get('/route-middleware');
 
-test('@validate get', async () => {
-  const resFailure = await server.get('/validate-get').expect(400);
-
-  const resSuccess = await server
-    .get('/validate-get?include=[1,2,3]')
-    .send({
-      name: 'Hiyo',
-    })
-    .expect(200);
-});
-
-test('@contentType', async () => {
-  await server
-    .post('/post')
-    .set('Content-Type', 'text/plain')
-    .expect(400);
-
-  await server
-    .post('/post')
-    .send({
-      name: 'Hiyo',
-    })
-    .set('Content-Type', 'application/json')
-    .expect(200);
-});
-
-test('middlewares', async () => {
-  const controllerMwRes = await server.get('/controller-middleware');
-
-  expect(controllerMwRes.body.inControllerMiddleware).toBeTruthy();
-  expect(controllerMwRes.body.inRouteMiddleware).toBeFalsy();
-
-  const routeMwRes = await server.get('/route-middleware');
-
-  expect(routeMwRes.body.inControllerMiddleware).toBeTruthy();
-  expect(routeMwRes.body.inRouteMiddleware).toBeTruthy();
+    expect(routeMwRes.body.inControllerMiddleware).toBeTruthy();
+    expect(routeMwRes.body.inRouteMiddleware).toBeTruthy();
+  });
 });
