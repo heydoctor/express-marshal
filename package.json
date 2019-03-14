@@ -1,48 +1,48 @@
 {
-	"name": "express-marshal",
-	"version": "0.3.4",
-	"description": "Helpful decorators to wire up Express controllers",
-	"license": "MIT",
-	"repository": "kylealwyn/express-marshal",
-	"author": {
-		"name": "Kyle Alwyn",
-		"email": "kjalwyn@gmail.com",
-		"url": "https://kylealwyn.com"
-	},
-	"engines": {
-		"node": ">=8"
-	},
-	"scripts": {
-		"test": "jest",
-		"format": "prettier --single-quote --trailing-comma es5 --write '{lib,__tests__}/**/*.js'"
-	},
-	"main": "lib/index.js",
-	"files": [
-		"lib"
-	],
-	"keywords": [
-		"express",
-		"decorators",
-		"es2015"
-	],
-	"dependencies": {
-		"express": "^4.16.4",
-		"joi": "^14.3.1"
-	},
-	"devDependencies": {
-		"@babel/core": "^7.3.4",
-		"@babel/plugin-proposal-decorators": "^7.3.0",
-		"@babel/polyfill": "^7.2.5",
-		"@babel/preset-env": "^7.3.4",
-		"@babel/register": "^7.0.0",
-		"body-parser": "^1.18.3",
-		"coveralls": "^3.0.3",
-		"jest": "^24.5.0",
-		"prettier": "^1.16.4",
-		"supertest": "^3.4.2"
-	},
-	"jest": {
-		"testMatch": ["<rootDir>/__tests__/index.js"],
-		"collectCoverageFrom": ["<rootDir>/lib/**/*"]
-	}
+  "name": "express-marshal",
+  "version": "0.3.4",
+  "description": "Helpful decorators to wire up Express controllers",
+  "license": "MIT",
+  "repository": "kylealwyn/express-marshal",
+  "author": {
+    "name": "Kyle Alwyn",
+    "email": "kjalwyn@gmail.com",
+    "url": "https://kylealwyn.com"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "scripts": {
+    "test": "jest",
+    "format": "prettier --single-quote --trailing-comma es5 --write '{lib,__tests__}/**/*.js'"
+  },
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "express",
+    "decorators",
+    "es2015"
+  ],
+  "dependencies": {
+    "express": "^4.16.4",
+    "joi": "^14.3.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-decorators": "^7.3.0",
+    "@babel/polyfill": "^7.2.5",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/register": "^7.0.0",
+    "body-parser": "^1.18.3",
+    "coveralls": "^3.0.3",
+    "jest": "^24.5.0",
+    "prettier": "^1.16.4",
+    "supertest": "^3.4.2"
+  },
+  "jest": {
+    "testMatch": ["<rootDir>/__tests__/index.js"],
+    "collectCoverageFrom": ["<rootDir>/lib/**/*"]
+  }
 }
