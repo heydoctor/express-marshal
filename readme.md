@@ -16,13 +16,15 @@ $ npm install express express-marshal
 Make sure you have decorators enabled through [babel](https://github.com/babel/babel):
 
 ```
-$ npm install --save-dev babel-plugin-transform-decorators-legacy
+$ npm install --save-dev @babel/plugin-proposal-decorators
 ```
 
 Add the plugin to your .babelrc:
 ```
 {
-  "plugins": ["transform-decorators-legacy"]
+  "plugins": [
+    ["@babel/plugin-proposal-decorators", { "legacy": true }]
+  ]
 }
 ```
 
