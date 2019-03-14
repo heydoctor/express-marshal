@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Helpful decorators to wire up Express controllers",
   "license": "MIT",
-  "repository": "kylealwyn/express-marshal",
+  "repository": "heydoctor/express-marshal",
   "author": {
     "name": "Kyle Alwyn",
     "email": "kjalwyn@gmail.com",
