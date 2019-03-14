@@ -1,9 +1,6 @@
 {
-  "presets": ["env", "stage-0"],
-  "plugins": ["transform-decorators-legacy"],
-  "env": {
-    "test": {
-      "plugins": ["istanbul"]
-    }
-  }
+  "presets": ["@babel/env"],
+  "plugins": [
+    ["@babel/plugin-proposal-decorators", { "legacy": true }]
+  ]
 }
