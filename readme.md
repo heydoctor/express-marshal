@@ -1,4 +1,4 @@
-# ✈️ Express Marshal [![npm version](https://badge.fury.io/js/express-marshal.svg)](http://badge.fury.io/js/express-marshal) [![Build Status](https://travis-ci.org/heydoctor/express-marshal.svg?branch=master)](https://travis-ci.org/heydoctor/express-marshal) [![codecov](https://codecov.io/gh/heydoctor/express-marshal/branch/master/graph/badge.svg)](https://codecov.io/gh/heydoctor/express-marshal)
+# ✈️ Express Marshal [![npm version](https://badge.fury.io/js/express-marshal.svg)](http://badge.fury.io/js/express-marshal) [![Build Status](https://travis-ci.org/heydoctor/express-marshal.svg?branch=master)](https://travis-ci.org/heydoctor/express-marshal) [![codecov](https://codecov.io/gh/heydoctor/express-marshal/branch/master/graph/badge.svg)](https://codecov.io/gh/heydoctor/express-marshal) [![Greenkeeper badge](https://badges.greenkeeper.io/heydoctor/express-marshal.svg)](https://greenkeeper.io/)
 
 A suite of decorators built to wire up [express](https://github.com/expressjs/express) controllers
 
