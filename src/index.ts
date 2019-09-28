@@ -1,18 +1,6 @@
 import Joi, { JoiObject, SchemaMap } from 'joi';
 import { Router, Request, Response, NextFunction } from 'express';
 
-export const prettyPath = (path = '') => {
-  if (path[0] !== '/') {
-    throw new Error(`Path \`${path}\` must begin with a slash.`);
-  }
-
-  if (path === '/') {
-    return path;
-  }
-
-  return path.replace(/\/*/, '/').replace(/\/*$/, '');
-};
-
 interface Route {
   method:
     | 'all'
@@ -33,12 +21,17 @@ interface Param {
   handler: (...args: any[]) => any;
 }
 
-interface Controller {
-  name: string;
-  __router: Router;
-  __params: Param[];
-  __routes: Route[];
-}
+export const prettyPath = (path: string) => {
+  if (path[0] !== '/') {
+    throw new Error(`Path \`${path}\` must begin with a slash.`);
+  }
+
+  if (path === '/') {
+    return path;
+  }
+
+  return path.replace(/\/*/, '/').replace(/\/*$/, '');
+};
 
 export const mount = (router: Router, controllers: any[]) => {
   controllers.forEach(ctrl => {
