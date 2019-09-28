@@ -37,9 +37,7 @@ export const mount = (router: Router, controllers: any[]) => {
   controllers.forEach(ctrl => {
     if (!ctrl.__router) {
       throw new Error(
-        `${
-          ctrl.name
-        } requires a router property. Make sure you decorated your class with @controller(basepath)`
+        `${ctrl.name} requires a router property. Make sure you decorated your class with @controller(basepath)`
       );
     }
 
