@@ -1,12 +1,15 @@
 import Joi from 'joi';
-import * as marshal from '../lib';
+import * as marshal from '../src';
+import { Request, Response, NextFunction } from 'express';
 
-const allRoutesMiddleware = (req, res, next) => {
+const allRoutesMiddleware = (req: Request, _: Response, next: NextFunction) => {
+  // @ts-ignore
   req.inControllerMiddleware = true;
   next();
 };
 
-const routeSpecificMiddleware = (req, res, next) => {
+const routeSpecificMiddleware = (req: Request, _: Response, next: NextFunction) => {
+  // @ts-ignore
   req.inRouteMiddleware = true;
   next();
 };
@@ -14,31 +17,33 @@ const routeSpecificMiddleware = (req, res, next) => {
 @marshal.controller('/', [allRoutesMiddleware])
 export default class TestController {
   @marshal.param('param')
-  preload(req, res, next, param) {
-    req.param = param;
+  preload(req: Request, res: Response, next: NextFunction, param: string) {
+    // @ts-ignore
+    req.marshalParam = param;
     next();
   }
 
   @marshal.get('/')
-  index(req, res) {
+  index(req: Request, res: Response) {
     res.sendStatus(200);
   }
 
   @marshal.contentType('application/json')
   @marshal.post('/post')
-  post(req, res) {
+  post(req: Request, res: Response) {
     res.json(req.body);
   }
 
   @marshal.route('get', '/route')
-  route(req, res) {
+  route(req: Request, res: Response) {
     res.sendStatus(200);
   }
 
   @marshal.get('/route-parameter/:param')
-  param(req, res) {
+  param(req: Request, res: Response) {
     res.json({
-      param: req.param,
+      // @ts-ignore
+      param: req.marshalParam,
     });
   }
 
@@ -46,7 +51,7 @@ export default class TestController {
     name: Joi.string().required(),
   })
   @marshal.post('/validate-post')
-  validate(req, res) {
+  validate(req: Request, res: Response) {
     res.sendStatus(200);
   }
 
@@ -56,22 +61,26 @@ export default class TestController {
     })
   )
   @marshal.get('/validate-get')
-  validateGet(req, res) {
+  validateGet(req: Request, res: Response) {
     res.sendStatus(200);
   }
 
   @marshal.get('/controller-middleware')
-  controllerMiddlware(req, res) {
+  controllerMiddlwareOne(req: Request, res: Response) {
     res.json({
+      // @ts-ignore
       inControllerMiddleware: req.inControllerMiddleware || false,
+      // @ts-ignore
       inRouteMiddleware: req.inRouteMiddleware || false,
     });
   }
 
   @marshal.get('/route-middleware', [routeSpecificMiddleware])
-  controllerMiddlware(req, res) {
+  controllerMiddlwareTwo(req: Request, res: Response) {
     res.json({
+      // @ts-ignore
       inControllerMiddleware: req.inControllerMiddleware || false,
+      // @ts-ignore
       inRouteMiddleware: req.inRouteMiddleware || false,
     });
   }

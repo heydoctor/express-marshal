@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "module":"commonjs",
+    "moduleResolution": "node",
+    "target": "es5",
+    "lib": ["esnext"],
+    "strict": true,
+    "sourceMap": false,
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declarationDir": "dist",
+    "outDir": "dist",
+    "typeRoots": [
+      "node_modules/@types"
+    ]
+  },
+  "include": [
+    "src",
+    "tests"
+  ]
+}
