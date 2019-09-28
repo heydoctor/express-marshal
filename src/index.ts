@@ -154,7 +154,7 @@ export const route = (method: string, path: string, middleware: any[] = []) => {
       {
         method,
         path: prettyPath(path),
-        middleware: middleware || [],
+        middleware: middleware,
         key,
       },
     ];

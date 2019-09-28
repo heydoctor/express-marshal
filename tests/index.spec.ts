@@ -102,9 +102,9 @@ describe('requests', () => {
   });
 
   test('@validate get', async () => {
-    const resFailure = await server.get('/validate-get').expect(400);
+    await server.get('/validate-get').expect(400);
 
-    const resSuccess = await server
+    await server
       .get('/validate-get?include=[1,2,3]')
       .send({
         name: 'Hiyo',
