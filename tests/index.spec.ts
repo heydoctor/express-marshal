@@ -1,13 +1,11 @@
-import '@babel/polyfill';
 import supertest from 'supertest';
 import express, { Router } from 'express';
 import bodyParser from 'body-parser';
 import TestController from './fixture';
-import { mount, controller } from '../lib';
-import { prettyPath } from '../lib/utils';
+import { mount, controller, prettyPath } from '../src';
 
 const app = express();
-const router = new Router();
+const router = Router();
 mount(router, [TestController]);
 app.use(bodyParser.json());
 app.use(router);
@@ -24,7 +22,7 @@ describe('utils', () => {
 
 describe('decorators', () => {
   test('mount', () => {
-    const router = new Router();
+    const router = Router();
     mount(router, [TestController]);
 
     // hacky
@@ -34,12 +32,13 @@ describe('decorators', () => {
   test('mount invalid controller', () => {
     class Invalid {}
 
-    const router = new Router();
+    const router = Router();
 
     expect(() => mount(router, [Invalid])).toThrowErrorMatchingSnapshot();
   });
 
   test('@controller', () => {
+    // @ts-ignore
     expect(TestController.__router).toBeDefined();
   });
 
@@ -47,11 +46,13 @@ describe('decorators', () => {
     @controller('/')
     class NoRoutes {}
 
+    // @ts-ignore
     expect(NoRoutes.__router).toBeDefined();
   });
 
   test('@controller without basepath', () => {
     expect(() => {
+      // @ts-ignore
       @controller()
       class NoBasePath {}
     }).toThrowErrorMatchingSnapshot();
@@ -101,9 +102,9 @@ describe('requests', () => {
   });
 
   test('@validate get', async () => {
-    const resFailure = await server.get('/validate-get').expect(400);
+    await server.get('/validate-get').expect(400);
 
-    const resSuccess = await server
+    await server
       .get('/validate-get?include=[1,2,3]')
       .send({
         name: 'Hiyo',

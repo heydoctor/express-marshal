@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { mount, controller, param, validate, get, post } from '../lib';
+import { mount, controller, param, validate, get, post } from '../src';
 import Joi from 'joi';
 
 @controller('/artists')

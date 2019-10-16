@@ -1,0 +1,17 @@
+name: ci
+on: pull_request
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: test
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 10
+    - run: yarn install
+    - run: yarn test --coverage
+    - run: yarn build
+    - run: npx codecov
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
