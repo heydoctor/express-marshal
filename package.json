@@ -1,6 +1,6 @@
 {
   "name": "express-marshal",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Helpful decorators to wire up Express controllers",
   "license": "MIT",
   "repository": "heydoctor/express-marshal",
