@@ -15,7 +15,8 @@
   "scripts": {
     "test": "jest",
     "format": "prettier --single-quote --trailing-comma es5 --write '{src,test}/**/*.ts'",
-    "build": "rimraf dist && tsc -p tsconfig.build.json"
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "release": "npm run build && standard-version"
   },
   "main": "dist/index.js",
   "files": [
