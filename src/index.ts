@@ -1,4 +1,4 @@
-import Joi, { JoiObject, SchemaMap } from 'joi';
+import * as Joi from 'joi';
 import { Router, Request, Response, NextFunction } from 'express';
 
 interface Route {
@@ -101,7 +101,7 @@ export const contentType = (contentType: string) => {
   };
 };
 
-export const validate = (schema: JoiObject | SchemaMap) => {
+export const validate = (schema: Joi.JoiObject | Joi.SchemaMap) => {
   return (target: any, _: string, descriptor: PropertyDescriptor) => {
     let fn = descriptor.value;
 
@@ -111,7 +111,7 @@ export const validate = (schema: JoiObject | SchemaMap) => {
       try {
         Joi.assert(
           payload,
-          schema.isJoi ? schema : Joi.object(schema as SchemaMap)
+          schema.isJoi ? schema : Joi.object(schema as Joi.SchemaMap)
         );
 
         return fn.apply(target, [req, res, ...rest]);
