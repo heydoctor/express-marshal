@@ -38,7 +38,7 @@
     "@babel/polyfill": "^7.10.1",
     "@babel/preset-env": "^7.10.2",
     "@babel/preset-typescript": "^7.10.1",
-    "@babel/register": "^7.0.0",
+    "@babel/register": "^7.10.1",
     "@types/express": "^4.17.1",
     "@types/jest": "^24.0.18",
     "@types/joi": "^14.3.3",
